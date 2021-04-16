@@ -1,0 +1,18 @@
+:root {
+	font-family: 'Red Hat Text', sans-serif;
+}
+
+* {
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+body {
+	margin: 0;
+	background: url(/images/pattern-hills.svg) no-repeat 27% bottom,
+		url(/images/bg-stars.svg) center center, linear-gradient(180deg, #1d1e28 0%, #261a2d 100%);
+	background-size: auto 168px, auto 569px, auto;
+	width: 100vw;
+	height: 100vh;
+	overflow: hidden;
+}
