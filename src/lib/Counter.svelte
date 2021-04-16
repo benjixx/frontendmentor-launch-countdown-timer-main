@@ -107,8 +107,6 @@
 		.counter-top-value {
 			transform: translateY(34px);
 		}
-		.counter-bottom-value {
-		}
 	}
 
 	.counter-background {
