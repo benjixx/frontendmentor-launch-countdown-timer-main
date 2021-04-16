@@ -14,4 +14,10 @@
 		display: flex;
 		gap: 16px;
 	}
+
+	@media screen and (min-width: 1440px) {
+		.container {
+			gap: 32px;
+		}
+	}
 </style>

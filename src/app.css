@@ -16,3 +16,10 @@ body {
 	height: 100vh;
 	overflow: hidden;
 }
+
+/* exact breakpoint where pattern-hills background does not jump */
+@media screen and (min-width: 1214px) {
+	body {
+		background-size: contain, auto 569px, auto;
+	}
+}

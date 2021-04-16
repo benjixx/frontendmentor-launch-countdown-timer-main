@@ -16,6 +16,13 @@
 		width: 327px;
 	}
 
+	@media screen and (min-width: 1440px) {
+		main {
+			padding-top: 132px;
+			width: 688px;
+		}
+	}
+
 	h1 {
 		margin-top: 0;
 		margin-bottom: 54px;
@@ -29,5 +36,13 @@
 		text-transform: uppercase;
 
 		color: #ffffff;
+	}
+
+	@media screen and (min-width: 1440px) {
+		h1 {
+			font-size: 22px;
+			line-height: 29px;
+			letter-spacing: 7.5px;
+		}
 	}
 </style>

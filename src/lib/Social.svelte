@@ -15,6 +15,12 @@
 		gap: 32px;
 	}
 
+	@media screen and (min-width: 1440px) {
+		.container {
+			bottom: 72px;
+		}
+	}
+
 	.container > * {
 		display: block;
 		width: 24px;

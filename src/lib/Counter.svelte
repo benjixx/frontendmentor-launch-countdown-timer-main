@@ -29,6 +29,12 @@
 		gap: 9px;
 	}
 
+	@media screen and (min-width: 1440px) {
+		.container {
+			gap: 16px;
+		}
+	}
+
 	.counter {
 		position: relative;
 
@@ -44,10 +50,20 @@
 		font-weight: 700;
 	}
 
+	@media screen and (min-width: 1440px) {
+		.counter {
+			width: 148px;
+			height: 150px;
+
+			font-size: 80px;
+			letter-spacing: -2.4px;
+		}
+	}
+
 	.counter-top,
 	.counter-bottom {
 		width: 100%;
-		height: 33px;
+		height: 46.5%;
 		overflow: hidden;
 
 		display: flex;
@@ -67,6 +83,16 @@
 		background: var(--counter-bottom-background-color);
 	}
 
+	@media screen and (min-width: 1440px) {
+		.counter-top {
+			border-radius: 8px 8px 0 0;
+		}
+
+		.counter-bottom {
+			border-radius: 0 0 8px 8px;
+		}
+	}
+
 	.counter-top-value {
 		color: var(--counter-top-color);
 		transform: translateY(-2px);
@@ -75,6 +101,14 @@
 	.counter-bottom-value {
 		color: var(--counter-bottom-color);
 		transform: translateY(-36px);
+	}
+
+	@media screen and (min-width: 1440px) {
+		.counter-top-value {
+			transform: translateY(34px);
+		}
+		.counter-bottom-value {
+		}
 	}
 
 	.counter-background {
@@ -99,5 +133,13 @@
 
 		color: #8385a9;
 		text-transform: uppercase;
+	}
+
+	@media screen and (min-width: 1440px) {
+		.label {
+			font-size: 14px;
+			line-height: 19px;
+			letter-spacing: 5.91875px;
+		}
 	}
 </style>
