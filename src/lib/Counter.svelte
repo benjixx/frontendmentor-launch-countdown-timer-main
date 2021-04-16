@@ -1,15 +1,56 @@
 <script>
+	import { afterUpdate } from 'svelte';
+
 	export let label;
 	export let value;
+
+	let previousValue = null;
+	let newValueTop = null;
+	let newValueBottom = null;
+
+	let counterTopPreviousRef;
+	let counterBottomRef;
+
+	afterUpdate(() => {
+		if (previousValue === null) {
+			previousValue = value;
+			newValueBottom = value;
+			newValueTop = value;
+		}
+
+		const valueChanged = value !== previousValue;
+
+		if (valueChanged) {
+			const timeline = gsap.timeline();
+			timeline
+				.set(counterBottomRef, { transformOrigin: 'top', rotateX: 90 })
+				.call(() => {
+					newValueBottom = value;
+					newValueTop = value;
+				})
+				.to(counterTopPreviousRef, { duration: 0.4, transformOrigin: 'bottom', rotateX: -90 })
+				.to(counterBottomRef, { duration: 0.4, transformOrigin: 'top', rotateX: 0 })
+				.call(() => {
+					previousValue = value;
+				})
+				.set(counterTopPreviousRef, { transformOrigin: 'bottom', rotateX: 0 });
+		}
+	});
 </script>
 
 <div class="container">
 	<div class="counter">
-		<div class="counter-top">
-			<div class="counter-top-value">{value}</div>
+		<div class="counter-top-previous" bind:this={counterTopPreviousRef}>
+			<div class="counter-top-value">{previousValue}</div>
 		</div>
-		<div class="counter-bottom">
-			<div class="counter-bottom-value">{value}</div>
+		<div class="counter-top">
+			<div class="counter-top-value">{newValueTop}</div>
+		</div>
+		<div class="counter-bottom" bind:this={counterBottomRef}>
+			<div class="counter-bottom-value">{newValueBottom}</div>
+		</div>
+		<div class="counter-bottom-previous">
+			<div class="counter-bottom-value">{previousValue}</div>
 		</div>
 		<div class="counter-background" />
 	</div>
@@ -38,12 +79,10 @@
 	.counter {
 		position: relative;
 
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-
-		width: 70px;
-		height: 71px;
+		display: grid;
+		grid-template:
+			'top' 33px
+			'bottom' 33px / 70px;
 
 		font-size: 36px;
 		line-height: 71px;
@@ -52,8 +91,9 @@
 
 	@media screen and (min-width: 1440px) {
 		.counter {
-			width: 148px;
-			height: 150px;
+			grid-template:
+				'top' 70px
+				'bottom' 70px / 148px;
 
 			font-size: 80px;
 			letter-spacing: -2.4px;
@@ -61,9 +101,9 @@
 	}
 
 	.counter-top,
-	.counter-bottom {
-		width: 100%;
-		height: 46.5%;
+	.counter-top-previous,
+	.counter-bottom,
+	.counter-bottom-previous {
 		overflow: hidden;
 
 		display: flex;
@@ -71,31 +111,58 @@
 		align-items: center;
 	}
 
-	.counter-top {
+	.counter-top,
+	.counter-top-previous {
+		grid-area: top;
 		border-bottom: 0.15px solid rgba(0, 0, 0, 0.15);
 		border-radius: 4px 4px 0 0;
 		background: var(--counter-top-background-color);
 	}
 
-	.counter-bottom {
+	.counter-bottom,
+	.counter-bottom-previous {
+		grid-area: bottom;
 		border-top: 0.15px solid rgba(0, 0, 0, 0.15);
 		border-radius: 0 0 4px 4px;
 		background: var(--counter-bottom-background-color);
 	}
 
+	.counter-top-previous,
+	.counter-bottom {
+		z-index: 1;
+	}
+
+	.counter-top,
+	.counter-top-previous {
+		border-top: 0.25px solid gray;
+	}
+
+	.counter-bottom,
+	.counter-bottom-previous {
+		border-bottom: 0.25px solid gray;
+	}
+
 	@media screen and (min-width: 1440px) {
-		.counter-top {
+		.counter-top,
+		.counter-top-previous {
 			border-radius: 8px 8px 0 0;
 		}
 
-		.counter-bottom {
+		.counter-bottom,
+		.counter-bottom-previous {
 			border-radius: 0 0 8px 8px;
 		}
 	}
 
+	/* debug */
+	/* .counter-top-previous,
+	.counter-bottom-previous {
+		background: red;
+	} */
+
 	.counter-top-value {
 		color: var(--counter-top-color);
-		transform: translateY(-2px);
+		transform: translateY(-4px);
 	}
 
 	.counter-bottom-value {
@@ -105,7 +172,7 @@
 
 	@media screen and (min-width: 1440px) {
 		.counter-top-value {
-			transform: translateY(34px);
+			transform: translateY(33px);
 		}
 	}
 

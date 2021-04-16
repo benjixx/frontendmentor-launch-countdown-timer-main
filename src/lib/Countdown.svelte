@@ -1,4 +1,6 @@
 <script>
+	import { onMount } from 'svelte';
+
 	import Counter from './Counter.svelte';
 
 	let now = new Date();
@@ -22,6 +24,14 @@
 	function toggleSwitch() {
 		now = new Date();
 	}
+
+	onMount(() => {
+		const interval = setInterval(() => {
+			now = new Date();
+		}, 1000);
+
+		return () => clearInterval(interval);
+	});
 </script>
 
 <div class="container" on:click={toggleSwitch}>
