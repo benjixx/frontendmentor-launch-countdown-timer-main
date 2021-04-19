@@ -6,7 +6,7 @@
 	let now = new Date();
 	let countdownToDate = new Date(2021, 3, 24, 9, 2, 3);
 
-	$: distance = countdownToDate - now;
+	$: distance = countdownToDate - now > 0 ? countdownToDate - now : 0;
 
 	$: days = Math.floor(distance / (1000 * 60 * 60 * 24))
 		.toString()

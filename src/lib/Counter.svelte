@@ -23,17 +23,18 @@
 		if (valueChanged) {
 			const timeline = gsap.timeline();
 			timeline
+				.set(counterTopPreviousRef, { transformOrigin: 'bottom' })
 				.set(counterBottomRef, { transformOrigin: 'top', rotateX: 90 })
 				.call(() => {
 					newValueBottom = value;
 					newValueTop = value;
 				})
-				.to(counterTopPreviousRef, { duration: 0.4, transformOrigin: 'bottom', rotateX: -90 })
-				.to(counterBottomRef, { duration: 0.4, transformOrigin: 'top', rotateX: 0 })
+				.to(counterTopPreviousRef, { duration: 0.5, rotateX: -90, ease: 'power1.in' })
+				.to(counterBottomRef, { duration: 0.4, rotateX: 0, ease: 'power3.out' })
 				.call(() => {
 					previousValue = value;
 				})
-				.set(counterTopPreviousRef, { transformOrigin: 'bottom', rotateX: 0 });
+				.set(counterTopPreviousRef, { rotateX: 0 });
 		}
 	});
 </script>
@@ -67,12 +68,12 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		gap: 9px;
+		gap: 13px;
 	}
 
 	@media screen and (min-width: 1440px) {
 		.container {
-			gap: 16px;
+			gap: 19px;
 		}
 	}
 
@@ -109,22 +110,36 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+
+		backface-visibility: hidden;
+		transform-style: preserve-3d;
 	}
 
 	.counter-top,
 	.counter-top-previous {
+		--scoop-radius: 3px;
+
 		grid-area: top;
-		border-bottom: 0.15px solid rgba(0, 0, 0, 0.15);
 		border-radius: 4px 4px 0 0;
 		background: var(--counter-top-background-color);
+
+		mask: radial-gradient(circle at 0 100%, transparent var(--scoop-radius), #000 0),
+			radial-gradient(circle at 100% 100%, transparent var(--scoop-radius), #000 0);
+		mask-composite: intersect;
 	}
 
 	.counter-bottom,
 	.counter-bottom-previous {
+		--scoop-radius: 3px;
+
 		grid-area: bottom;
 		border-top: 0.15px solid rgba(0, 0, 0, 0.15);
 		border-radius: 0 0 4px 4px;
 		background: var(--counter-bottom-background-color);
+
+		mask: radial-gradient(circle at 0 0, transparent var(--scoop-radius), #000 0),
+			radial-gradient(circle at 100% 0, transparent var(--scoop-radius), #000 0);
+		mask-composite: intersect;
 	}
 
 	.counter-top-previous,
@@ -134,22 +149,24 @@
 
 	.counter-top,
 	.counter-top-previous {
-		border-top: 0.25px solid gray;
+		box-shadow: 0 -1px 2px #1d1e28;
 	}
 
 	.counter-bottom,
 	.counter-bottom-previous {
-		border-bottom: 0.25px solid gray;
+		box-shadow: 0 1px 2px #1d1e28;
 	}
 
 	@media screen and (min-width: 1440px) {
 		.counter-top,
 		.counter-top-previous {
+			--scoop-radius: 6px;
 			border-radius: 8px 8px 0 0;
 		}
 
 		.counter-bottom,
 		.counter-bottom-previous {
+			--scoop-radius: 6px;
 			border-radius: 0 0 8px 8px;
 		}
 	}
@@ -162,7 +179,7 @@
 
 	.counter-top-value {
 		color: var(--counter-top-color);
-		transform: translateY(-4px);
+		transform: translateY(-3px);
 	}
 
 	.counter-bottom-value {
@@ -172,7 +189,7 @@
 
 	@media screen and (min-width: 1440px) {
 		.counter-top-value {
-			transform: translateY(33px);
+			transform: translateY(34px);
 		}
 	}
 
@@ -186,7 +203,15 @@
 		background: #191a23;
 		border-radius: 8px;
 
+		transform: translateY(4px);
+
 		z-index: -1;
+	}
+
+	@media screen and (min-width: 1440px) {
+		.counter-background {
+			transform: translateY(10px);
+		}
 	}
 
 	.label {
