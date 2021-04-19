@@ -5,8 +5,7 @@
 	export let value;
 
 	let previousValue = null;
-	let newValueTop = null;
-	let newValueBottom = null;
+	let newValue = null;
 
 	let counterTopPreviousRef;
 	let counterBottomRef;
@@ -14,8 +13,7 @@
 	afterUpdate(() => {
 		if (previousValue === null) {
 			previousValue = value;
-			newValueBottom = value;
-			newValueTop = value;
+			newValue = value;
 		}
 
 		const valueChanged = value !== previousValue;
@@ -26,8 +24,7 @@
 				.set(counterTopPreviousRef, { transformOrigin: 'bottom' })
 				.set(counterBottomRef, { transformOrigin: 'top', rotateX: 90 })
 				.call(() => {
-					newValueBottom = value;
-					newValueTop = value;
+					newValue = value;
 				})
 				.to(counterTopPreviousRef, { duration: 0.5, rotateX: -90, ease: 'power1.in' })
 				.to(counterBottomRef, { duration: 0.4, rotateX: 0, ease: 'power3.out' })
@@ -45,10 +42,10 @@
 			<div class="counter-top-value">{previousValue}</div>
 		</div>
 		<div class="counter-top">
-			<div class="counter-top-value">{newValueTop}</div>
+			<div class="counter-top-value">{newValue}</div>
 		</div>
 		<div class="counter-bottom" bind:this={counterBottomRef}>
-			<div class="counter-bottom-value">{newValueBottom}</div>
+			<div class="counter-bottom-value">{newValue}</div>
 		</div>
 		<div class="counter-bottom-previous">
 			<div class="counter-bottom-value">{previousValue}</div>
@@ -170,12 +167,6 @@
 			border-radius: 0 0 8px 8px;
 		}
 	}
-
-	/* debug */
-	/* .counter-top-previous,
-	.counter-bottom-previous {
-		background: red;
-	} */
 
 	.counter-top-value {
 		color: var(--counter-top-color);

@@ -3,8 +3,16 @@
 
 	import Counter from './Counter.svelte';
 
+	function getRandomIntInclusive(min, max) {
+		min = Math.ceil(min);
+		max = Math.floor(max);
+		return Math.floor(Math.random() * (max - min + 1)) + min;
+	}
+
 	let now = new Date();
-	let countdownToDate = new Date(2021, 3, 24, 9, 2, 3);
+	const countdownToDate = new Date(
+		now.getTime() + getRandomIntInclusive(1000 * 60, 1000 * 60 * 60 * 24 * 7)
+	);
 
 	$: distance = countdownToDate - now > 0 ? countdownToDate - now : 0;
 
@@ -21,10 +29,6 @@
 		.toString()
 		.padStart(2, '0');
 
-	function toggleSwitch() {
-		now = new Date();
-	}
-
 	onMount(() => {
 		const interval = setInterval(() => {
 			now = new Date();
@@ -34,7 +38,7 @@
 	});
 </script>
 
-<div class="container" on:click={toggleSwitch}>
+<div class="container">
 	<Counter label="days" value={days} />
 	<Counter label="hours" value={hours} />
 	<Counter label="minutes" value={minutes} />
